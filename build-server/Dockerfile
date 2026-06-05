@@ -1,13 +1,14 @@
-FROM node:24
+FROM ubuntu:noble
 
-# Install git
 RUN apt update && apt install -y git
 
-# Create app directory
+RUN curl -sL https://deb.nodesource.com/setup_24.x | bash -
+RUN apt install -y nodejs
+
 WORKDIR /app
 
-# Copy files
 COPY . .
 
-# Run script
-CMD ["node", "worker.js"]
+RUN chmod +x script.sh
+
+CMD ["node worker.js"]

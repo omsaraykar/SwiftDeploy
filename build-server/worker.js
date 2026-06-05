@@ -2,10 +2,10 @@ import { spawn } from "child_process"
 import fs from "fs/promises"
 import path from "path"
 
-const REPO_URL = "https://github.com/user/project.git"
-const PROJECT_NAME = "test-project"
+const REPO_URL = "https://github.com/omsaraykar/gdg-website"
+const PROJECT_NAME = "gdg-website"
 
-const BASE_DIR = "/"
+const BASE_DIR = "/home/app/output"
 
 async function ensureDir(dir) {
     await fs.mkdir(dir, { recursive: true })
