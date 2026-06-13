@@ -3,6 +3,7 @@ import path from "path"
 
 import { PutObjectCommand } from "@aws-sdk/client-s3"
 import { s3 } from "./s3.js"
+import mime from "mime-types"
 
 async function getFiles(dir) {
     const entries = await fs.readdir(dir, {
@@ -37,7 +38,8 @@ export async function uploadDirectory(localDir, projectSlug) {
             new PutObjectCommand({
                 Bucket: process.env.AWS_BUCKET_NAME,
                 Key: key,
-                Body: content
+                Body: content,
+                ContentType: mime.lookup(filePath) || "application/octet-stream"
             })
         )
 
