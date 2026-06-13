@@ -1,11 +1,12 @@
 import { spawn } from "child_process"
 import fs from "fs/promises"
 import path from "path"
+import "dotenv/config"
+import { uploadDirectory } from "./lib/uploadDirectory.js"
 
-const REPO_URL = "https://github.com/omsaraykar/gdg-website"
-const PROJECT_NAME = "gdg-website"
-
-const BASE_DIR = "/home/app/output"
+const REPO_URL = process.env.REPO_URL || "https://github.com/omsaraykar/gdg-website"
+const PROJECT_NAME = process.env.PROJECT_NAME || "gdg-website"
+const BASE_DIR = "/"
 
 async function ensureDir(dir) {
     await fs.mkdir(dir, { recursive: true })
@@ -86,8 +87,12 @@ async function buildProject() {
 
         console.log("Build completed successfully")
 
-        // Example:
-        // upload dist folder to S3/minio here
+        console.log("Uploading to S3...")
+        await uploadDirectory(
+            path.join(projectPath, "dist"),
+            PROJECT_NAME
+        )
+        console.log("Uploaded to S3 successfully")
 
     } catch (err) {
         console.error("Deployment failed")
