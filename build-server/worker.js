@@ -4,9 +4,9 @@ import path from "path"
 import "dotenv/config"
 import { uploadDirectory } from "./lib/uploadDirectory.js"
 
-const REPO_URL = process.env.REPO_URL || "https://github.com/omsaraykar/gdg-website"
-const PROJECT_NAME = process.env.PROJECT_NAME || "gdg-website"
-const BASE_DIR = "/"
+const REPO_URL = process.env.REPO_URL
+const PROJECT_NAME = process.env.PROJECT_NAME
+const BASE_DIR = process.env.BASE_DIR
 
 async function ensureDir(dir) {
     await fs.mkdir(dir, { recursive: true })
@@ -15,8 +15,7 @@ async function ensureDir(dir) {
 function runCommand(command, args, cwd) {
     return new Promise((resolve, reject) => {
         const child = spawn(command, args, {
-            cwd,
-            shell: true
+            cwd
         })
 
         child.stdout.on("data", (data) => {
